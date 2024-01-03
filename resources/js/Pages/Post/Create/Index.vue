@@ -4,7 +4,6 @@
                 <div>
                     <div class="flex gap-1 mb-3">
                         <Input v-model="form.title" name="제목" :error="errors.title"/>
-                        <Input v-model="form.writer" name="작성자" :error="errors.writer"/>
                     </div>
                     <TextArea v-model="form.content" name="내용" :error="errors.content"/>
                 </div>
