@@ -25,7 +25,7 @@
                 </dl>
             </div>
             <div class="mt-3 py-4 border-t-2 border-gray-200 flex flex-col gap-10">
-                <CommentList :data="data.comments" @destroy-comment="destroyComment"/>
+                <CommentList :data="data.comments" @destroy-comment="destroyComment" :auth="auth"/>
                 <CommentForm />
             </div>
         </div>

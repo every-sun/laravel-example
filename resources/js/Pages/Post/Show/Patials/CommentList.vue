@@ -13,7 +13,7 @@
                     <p>
                         {{ item.content }}
                     </p>
-                    <div class="flex gap-1 justify-end" >
+                    <div class="flex gap-1 justify-end" v-if="item.user.id===auth?.user?.id">
                         <Button title="수정" size="text-xs" @event="editableId = item.id"/>
                         <Button title="삭제" size="text-xs" @event="emits('destroyComment', {id: item.id})"/>
                     </div>
@@ -30,7 +30,8 @@ import Button from "@/Pages/Components/Button.vue";
 import useUtils from "@/libs/useUtils.js";
 
 const props = defineProps({
-    data: Object
+    data: Object,
+    auth: Object || null || undefined
 })
 
 const editableId = ref(null);
