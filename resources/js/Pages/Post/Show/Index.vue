@@ -1,6 +1,6 @@
 <template>
     <Layout title="게시글 상세">
-        <div>
+        <div class="pb-6 w-[90%] mx-auto">
             <div class="px-4 sm:px-0 flex justify-between">
                 <h3 class="text-base font-semibold leading-7 text-gray-900">{{ data.title }}</h3>
                 <div class="flex gap-2" v-if="data.user_id===auth?.user?.id">
@@ -20,9 +20,13 @@
                     </div>
                     <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                         <dt class="text-sm font-medium leading-6 text-gray-900">내용</dt>
-                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ data.content }}</dd>
+                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 break-words">{{ data.content }}</dd>
                     </div>
                 </dl>
+            </div>
+            <div class="mt-3 py-4 border-t-2 border-gray-200 flex flex-col gap-10">
+                <CommentList :data="data.comments" @destroy-comment="destroyComment"/>
+                <CommentForm />
             </div>
         </div>
         <Modal ref="modalRef"/>
@@ -35,6 +39,9 @@ import { ref } from "vue";
 import Modal from "@/Pages/Components/Modal.vue";
 import usePost from "@/libs/controller/usePost.js";
 import useUtils from "@/libs/useUtils.js";
+import CommentForm from "@/Pages/Post/Show/Patials/CommentForm.vue";
+import useComment from "@/libs/controller/useComment.js";
+import CommentList from "@/Pages/Post/Show/Patials/CommentList.vue";
 
 const props = defineProps(
     {
@@ -45,8 +52,11 @@ const props = defineProps(
 
 const modalRef = ref(null);
 
-const {editPostPage, destroyPost} = usePost({modalRef})
+const {editPostPage, destroyPost} = usePost({modalRef});
+
+const {destroyComment} = useComment({modalRef});
 
 const { getLongTime } = useUtils();
+
 
 </script>

@@ -12,14 +12,16 @@ use Inertia\Response;
 class PostController extends Controller
 {
     public function indexPosts() : Response{
-        $post = (new Post)::with('user')->paginate(10);
+        $post = (new Post)::with('user')->orderByDesc('created_at')->paginate(10);
         return Inertia::render('Post/Index', [
             'data' => $post
         ]);
     }
     public function showPost(Request $request, $id) {
         try{
-            $post = (new Post)::with('user')->findOrFail($id);
+            $post = (new Post)::with('user')->with('comments',function($query){
+                return $query->with('user');
+            } )->findOrFail($id); // TODO 댓글 페이지네이션
             return Inertia::render('Post/Show/Index', [
                 'data'=>$post
             ]);
@@ -38,7 +40,6 @@ class PostController extends Controller
         (new Post)::create([
             'user_id'=> Auth::id(),
             'title'=> $request->input('title'),
-            'writer'=>'익명',
             'content'=> $request->input('content'),
         ]);
         return to_route('posts.index');
@@ -53,19 +54,19 @@ class PostController extends Controller
             return Inertia::location(route('posts.index'));
         }
     }
-    public function updatePost(Request $request) {
+    public function updatePost(Request $request, $id) {
         $request->validate([
             'title'=>'required|max:40',
             'content'=>'required'
         ]);
-        (new Post)::findOrFail($request->route('id'))->update([
+        (new Post)::findOrFail($id)->update([
             'title'=> $request->input('title'),
             'content'=> $request->input('content'),
         ]);
         return to_route('post.show', ['id'=>$request->route('id')]);
     }
-    public function destroyPost(Request $request) {
-        (new Post)::findOrFail($request->route('id'))->delete();
+    public function destroyPost(Request $request, $id) {
+        (new Post)::findOrFail($id)->delete();
         return to_route('posts.index');
     }
 

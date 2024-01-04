@@ -23,7 +23,7 @@
                         <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500" @click="showPost(post.id)">{{ i+1 }}</td>
                         <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500" @click="showPost(post.id)">{{ post.title }}</td>
                         <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500" @click="showPost(post.id)">{{ post.user.name }}</td>
-                        <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500" @click="showPost(post.id)">{{ getPostCreatedTime(post.created_at) }}</td>
+                        <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500" @click="showPost(post.id)">{{ getShortTime(post.created_at) }}</td>
                         <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500 flex gap-1" v-if="post.user_id===auth?.user?.id">
                             <button @click="editPostPage({id: post.id})">수정</button>
                             <button @click="destroyPost({id: post.id})">삭제</button>
@@ -53,7 +53,7 @@ const props = defineProps({
 
 const route = inject('route');
 
-const { getPostCreatedTime } = useUtils();
+const { getShortTime } = useUtils();
 
 const modalRef = ref(null);
 

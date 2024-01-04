@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::dropIfExists('posts');
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->longtext('content');
-            $table->string('writer');
+            $table->string('writer')->nullable();
             $table->timestamps();
 //            $table->unsignedBigInteger('user_id');
 //            $table->foreign('user_id')->references('id')->on('users');

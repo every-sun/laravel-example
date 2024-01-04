@@ -1,5 +1,5 @@
 export default function useUtils(){
-    const getPostCreatedTime = (dateString) =>{
+    const getShortTime = (dateString) =>{
         const today = new Date();
 
         const date = new Date(dateString);
@@ -14,6 +14,7 @@ export default function useUtils(){
     }
 
     const getLongTime = (dateString) =>{
+
         const dateArray =  dateString.split('T');
         const timeArray = dateArray[1].split(':');
         const time = `${timeArray[0]}:${timeArray[1]}:${timeArray[2].split('.')[0]}`;
@@ -23,7 +24,7 @@ export default function useUtils(){
 
 
     return {
-        getPostCreatedTime,
+        getShortTime,
         getLongTime
     }
 }

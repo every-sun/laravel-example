@@ -4,7 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\PostController;
-
+use App\Http\Controllers\CommentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,7 +25,6 @@ Route::get('/', function () {
     ]);
 });
 
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -36,14 +35,19 @@ Route::middleware([
     })->name('dashboard');
     Route::get('/user/posts', [PostController::class, 'indexMyPosts'])->name('user.posts.index');
     Route::get('/post/create', [PostController::class, 'createPost'])->name('post.create');
-});
+    Route::post('/post', [PostController::class, 'storePost'])->name('post.store');
+    Route::get('/post/{id}/edit', [PostController::class, 'editPost'])->name('post.edit');
+    Route::put('/post/{id}', [PostController::class, 'updatePost'])->name('post.update');
+    Route::delete('/post/{id}', [PostController::class, 'destroyPost'])->name('post.destroy');
 
+    Route::post('/post/{post_id}/comment', [CommentController::class, 'storeComment'])->name('post.comment.store');
+    Route::put('/post/{post_id}/comment/{id}', [CommentController::class, 'updateComment'])->name('post.comment.update');
+    Route::delete('/post/{post_id}/comment/{id}', [CommentController::class, 'destroyComment'])->name('post.comment.destroy');
+});
 
 Route::get('/post', [PostController::class, 'indexPosts'])->name('posts.index');
 //Route::get('/post/create', [PostController::class, 'createPost'])->name('post.create');
 Route::get('/post/{id}', [PostController::class, 'showPost'])->name('post.show');
-Route::post('/post', [PostController::class, 'storePost'])->name('post.store');
-Route::get('/post/{id}/edit', [PostController::class, 'editPost'])->name('post.edit');
-Route::put('/post/{id}', [PostController::class, 'updatePost'])->name('post.update');
-Route::delete('/post/{id}', [PostController::class, 'destroyPost'])->name('post.destroy');
+
+
 
