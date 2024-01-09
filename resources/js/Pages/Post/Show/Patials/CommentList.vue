@@ -1,7 +1,7 @@
 <template>
     <div class="py-1 flex flex-col gap-2">
-        <ul class="flex flex-col gap-2 divide-y divide-gray-200">
-            <li class="py-2 bg-gray-100" v-for="item in data.data" :key="item.id">
+        <ul class="flex flex-col gap-2">
+            <li class="border-b border-gray-300" v-for="item in data.data" :key="item.id">
                 <div v-if="editableId!==item.id">
                     <div class="flex justify-between">
                         <p class="text-xs">
@@ -21,8 +21,8 @@
                         <Button title="수정" size="text-xs" @event="editableId = item.id"/>
                         <Button title="삭제" size="text-xs" @event="emits('destroyComment', item.id)"/>
                     </div>
-                    <div v-for="reply in item.replies" :key="reply.id">
-                        ㄴ {{ reply.content }}
+                    <div v-for="reply in item.replies" :key="reply.id" >
+                        <ReplyItem :item="reply" :auth="auth"/>
                     </div>
                 </div>
                 <CommentForm v-else :data="item" @submit-success="editableId=null" />
@@ -36,6 +36,7 @@ import CommentForm from "@/Pages/Post/Show/Patials/CommentForm.vue";
 import {ChatBubbleLeftEllipsisIcon} from "@heroicons/vue/24/solid/index.js";
 import useUtils from "@/libs/useUtils.js";
 import Button from "@/Pages/Components/Button.vue";
+import ReplyItem from "@/Pages/Post/Show/Patials/ReplyItem.vue";
 
 const props = defineProps({
     data: Object,
