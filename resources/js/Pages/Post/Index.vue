@@ -21,12 +21,13 @@
                 <tbody v-else class="divide-y divide-gray-200 bg-white">
                     <tr v-for="(post, i) in data.data" :key="post.id" class="cursor-pointer hover:bg-yellow-50">
                         <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500" @click="showPost(post.id)">{{ i+1 }}</td>
-                        <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500" @click="showPost(post.id)">{{ post.title }}</td>
+                        <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500 hover:font-semibold" @click="showPost(post.id)">
+                            <span>{{ post.title }}</span><span v-if="post.comments_count > 0">{{` (${post.comments_count})` }}</span></td>
                         <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500" @click="showPost(post.id)">{{ post.user.name }}</td>
                         <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500" @click="showPost(post.id)">{{ getShortTime(post.created_at) }}</td>
                         <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500 flex gap-1" v-if="post.user_id===auth?.user?.id">
-                            <button @click="editPostPage({id: post.id})">수정</button>
-                            <button @click="destroyPost({id: post.id})">삭제</button>
+                            <button class="hover:font-semibold" @click="editPostPage({id: post.id})">수정</button>
+                            <button class="hover:font-semibold" @click="destroyPost({id: post.id})">삭제</button>
                         </td>
                     </tr>
                 </tbody>
@@ -51,6 +52,8 @@ const props = defineProps({
     auth: Object || null || undefined,
 })
 
+console.log(props.data);
+
 const route = inject('route');
 
 const { getShortTime } = useUtils();
@@ -63,7 +66,6 @@ const showPost = (id) => {
     router.get(route('post.show', {id: id}));
 }
 
-console.log(props.data);
 
 </script>
 

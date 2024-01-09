@@ -13,9 +13,11 @@ class CommentController extends Controller
         $request->validate([
             'content'=>'required'
         ]);
+        $parent_id=$request->input('parent_id');
         (new Comment())::create([
             'user_id'=> Auth::id(),
             'post_id'=>$post_id,
+            'parent_id'=>$parent_id,
             'content'=> $request->input('content'),
         ]);
         return to_route('post.show', ['id'=>$post_id]);

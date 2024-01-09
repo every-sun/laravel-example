@@ -25,8 +25,10 @@
                 </dl>
             </div>
             <div class="mt-3 py-4 border-t-2 border-gray-200 flex flex-col gap-10">
-                <CommentList :data="data.comments" @destroy-comment="destroyComment" :auth="auth"/>
+                <h1 class="font-medium text-sm">총 댓글 {{ data.comments_count }}</h1>
                 <CommentForm />
+                <CommentList :data="comments_data" @destroy-comment="destroyComment" :auth="auth"/>
+                <PaginationButtons :links="comments_data.links" class="self-center"/>
             </div>
         </div>
         <Modal ref="modalRef"/>
@@ -42,11 +44,13 @@ import useUtils from "@/libs/useUtils.js";
 import CommentForm from "@/Pages/Post/Show/Patials/CommentForm.vue";
 import useComment from "@/libs/controller/useComment.js";
 import CommentList from "@/Pages/Post/Show/Patials/CommentList.vue";
+import PaginationButtons from "@/Pages/Components/PaginationButtons.vue";
 
 const props = defineProps(
     {
         data: Object,
-        auth: Object || null || undefined
+        auth: Object || null || undefined,
+        comments_data: Object
     }
 )
 
@@ -57,6 +61,5 @@ const {editPostPage, destroyPost} = usePost({modalRef});
 const {destroyComment} = useComment({modalRef});
 
 const { getLongTime } = useUtils();
-
 
 </script>

@@ -12,18 +12,18 @@ use Inertia\Response;
 class PostController extends Controller
 {
     public function indexPosts() : Response{
-        $post = (new Post)::with('user')->orderByDesc('created_at')->paginate(10);
+        $post = (new Post)::with('user')->withCount('comments')->orderByDesc('created_at')->paginate(10);
         return Inertia::render('Post/Index', [
             'data' => $post
         ]);
     }
     public function showPost(Request $request, $id) {
         try{
-            $post = (new Post)::with('user')->with('comments',function($query){
-                return $query->with('user');
-            } )->findOrFail($id); // TODO 댓글 페이지네이션
+            $post = (new Post)::with('user')->withCount('comments')->findOrFail($id);
+            $comments = $post->comments()->where('parent_id', null)->with(['user', 'replies'])->orderByDesc('created_at')->paginate(10);
             return Inertia::render('Post/Show/Index', [
-                'data'=>$post
+                'data'=>$post,
+                'comments_data'=>$comments
             ]);
         }catch (ModelNotFoundException $err){
             return Inertia::location(route('posts.index'));

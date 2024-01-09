@@ -16,14 +16,15 @@ use App\Http\Controllers\CommentController;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+//Route::get('/', function () {
+//    return Inertia::render('Welcome', [
+//        'canLogin' => Route::has('login'),
+//        'canRegister' => Route::has('register'),
+//        'laravelVersion' => Application::VERSION,
+//        'phpVersion' => PHP_VERSION,
+//    ]);
+//});
+Route::get('/', [PostController::class, 'indexPosts'])->name('posts.index');
 
 Route::middleware([
     'auth:sanctum',
@@ -46,7 +47,6 @@ Route::middleware([
 });
 
 Route::get('/post', [PostController::class, 'indexPosts'])->name('posts.index');
-//Route::get('/post/create', [PostController::class, 'createPost'])->name('post.create');
 Route::get('/post/{id}', [PostController::class, 'showPost'])->name('post.show');
 
 
