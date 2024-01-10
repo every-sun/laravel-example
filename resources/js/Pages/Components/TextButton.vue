@@ -1,5 +1,5 @@
 <template>
-    <button class="flex items-center" :class="size?size:'text-sm'" @click="$emit('event')">
+    <button class="flex items-center hover:font-semibold" :class="size?size:'text-sm'" @click="$emit('event')">
         <slot name="icon"></slot>
         {{ props.title }}
     </button>

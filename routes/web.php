@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CommentLikeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,7 +35,12 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
     Route::get('/user/posts', [PostController::class, 'indexMyPosts'])->name('user.posts.index');
+
+    Route::post('/comment/{comment_id}/like', [CommentLikeController::class, 'storeCommentLike'])->name('comment.like.store');
+    Route::delete('/comment/{comment_id}/like', [CommentLikeController::class, 'destroyCommentLike'])->name('comment.like.destroy');
+
     Route::get('/post/create', [PostController::class, 'createPost'])->name('post.create');
     Route::post('/post', [PostController::class, 'storePost'])->name('post.store');
     Route::get('/post/{id}/edit', [PostController::class, 'editPost'])->name('post.edit');

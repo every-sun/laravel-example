@@ -15,7 +15,6 @@
                 <slot name="buttons"></slot>
             </div>
         </div>
-
     </li>
 </template>
 <script setup>

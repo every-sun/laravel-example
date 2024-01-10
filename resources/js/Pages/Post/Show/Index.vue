@@ -27,7 +27,7 @@
             <div class="mt-3 py-4 border-t-2 border-gray-200 flex flex-col gap-10">
                 <h1 class="font-medium text-sm">총 댓글 {{ data.comments_count }}</h1>
                 <CommentForm />
-                <CommentList :data="comments_data" @destroy-comment="destroyComment" :auth="auth"/>
+                <CommentList :data="comments_data" @destroy-comment="destroyComment" :auth="auth" :user_like_comments="user_like_comments"/>
                 <PaginationButtons :links="comments_data.links" class="self-center"/>
             </div>
         </div>
@@ -50,7 +50,8 @@ const props = defineProps(
     {
         data: Object,
         auth: Object || null || undefined,
-        comments_data: Object
+        comments_data: Object,
+        user_like_comments: Object
     }
 )
 
@@ -62,4 +63,6 @@ const {destroyComment} = useComment({modalRef});
 
 const { getLongTime } = useUtils();
 
+
+console.log(props.comments_data);
 </script>

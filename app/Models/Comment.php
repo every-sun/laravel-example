@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'post_id', 'content', 'writer', 'parent_id', 'likes'];
+    protected $fillable = ['user_id', 'post_id', 'content', 'writer', 'parent_id'];
 
     public function post(){
         return $this->belongsTo(Post::class);
@@ -20,5 +20,9 @@ class Comment extends Model
 
     public function replies(){
         return $this->hasMany(Comment::class, 'parent_id')->with('user');
+    }
+
+    public function likes(){
+        return $this->hasMany(CommentLike::class, 'comment_id', 'id');
     }
 }

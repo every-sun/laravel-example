@@ -24,9 +24,19 @@ export default function useComment({modalRef}){
         })
     }
 
+    const storeLike = ({id}) => {
+        router.post(route('comment.like.store', {comment_id:id}));
+    }
+
+    const destroyLike = ({id}) => {
+        router.delete(route('comment.like.destroy', {comment_id:id}));
+    }
+
     return {
         storeComment,
         updateComment,
         destroyComment,
+        storeLike,
+        destroyLike
     };
 }

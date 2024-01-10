@@ -1,5 +1,5 @@
 <template>
-    <div class="py-1 flex flex-col gap-2">
+    <div class="py-1 flex flex-col gap-2 pb-20">
         <ul class="flex flex-col gap-2">
             <li class="border-b border-gray-300" v-for="item in data.data" :key="item.id">
                 <div v-if="editableId!==item.id">
@@ -20,7 +20,7 @@
                         <TextButton title="답글달기" size="text-xs" @event="parentId = item.id" />
                         <TextButton title="수정" size="text-xs" @event="editableId = item.id"/>
                         <TextButton title="삭제" size="text-xs" @event="emits('destroyComment', item.id)"/>
-                        <TextButton title="좋아요" size="text-xs"><template v-slot:icon><HeartIcon class="w-[16px]" /></template></TextButton>
+                        <TextButton :title="`좋아요${item.likes_count>0?`(${item.likes_count})`:''}`" size="text-xs" @event="likeToggle(item.id)"><template v-slot:icon><HeartIcon class="w-[16px]" :class="[user_like_comments.includes(item.id) && 'text-red-500']" /></template></TextButton>
                     </div>
                     <div v-for="reply in item.replies" :key="reply.id" >
                         <ReplyItem v-if="editableId!==reply.id" :item="reply" :auth="auth">
@@ -42,20 +42,32 @@ import { ref } from "vue";
 import CommentForm from "@/Pages/Post/Show/Patials/CommentForm.vue";
 import {ChatBubbleLeftEllipsisIcon, HeartIcon} from "@heroicons/vue/24/solid/index.js";
 import useUtils from "@/libs/useUtils.js";
-import Button from "@/Pages/Components/Button.vue";
 import ReplyItem from "@/Pages/Post/Show/Patials/ReplyItem.vue";
 import TextButton from "@/Pages/Components/TextButton.vue";
+import useComment from "@/libs/controller/useComment.js";
 
 const props = defineProps({
     data: Object,
-    auth: Object || null || undefined
+    auth: Object || null || undefined,
+    user_like_comments: Object
 })
 
+const { storeLike, destroyLike } = useComment({modalRef: null});
 const { getShortTime } = useUtils();
 
 const editableId = ref(null);
 const parentId = ref(null);
 
 const emits = defineEmits(['destroyComment']);
+
+const likeToggle = (id) => {
+    if(props.user_like_comments.includes(id)){
+        destroyLike({id});
+    }else{
+        storeLike({id});
+    }
+}
+
+
 
 </script>

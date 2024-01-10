@@ -16,13 +16,9 @@ return new class extends Migration
             $table->longText('content');
             $table->string('writer')->nullable();
             $table->timestamps();
-            $table->unsignedBigInteger('post_id');
-            $table->foreign('post_id')->cascadeOnDelete()->references('id')->on('posts');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->cascadeOnDelete()->references('id')->on('users');
-            $table->unsignedBigInteger('parent_id')->nullable();
-            $table->foreign('parent_id')->cascadeOnDelete()->references('id')->on('comments');
-            $table->enum('likes', ['']);
+            $table->foreignId('post_id')->references('id')->on('posts')->cascadeOnDelete();
+            $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreignId('parent_id')->nullable()->references('id')->on('comments')->cascadeOnDelete();
         });
     }
 

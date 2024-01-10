@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CommentLike;
 use App\Models\Post;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -20,10 +21,15 @@ class PostController extends Controller
     public function showPost(Request $request, $id) {
         try{
             $post = (new Post)::with('user')->withCount('comments')->findOrFail($id);
-            $comments = $post->comments()->where('parent_id', null)->with(['user', 'replies'])->orderByDesc('created_at')->paginate(10);
+            $comments = $post->comments()->where('parent_id', null)->with(['user', 'replies'])->withCount('likes')->orderByDesc('created_at')->paginate(10);
+            $user_like_comments = [];
+            if(Auth::check()){
+                $user_like_comments = (new CommentLike)::whereIn('comment_id', $comments->pluck('id'))->where('user_id', Auth::id())->pluck('comment_id');
+            }
             return Inertia::render('Post/Show/Index', [
                 'data'=>$post,
-                'comments_data'=>$comments
+                'comments_data'=>$comments,
+                'user_like_comments'=>$user_like_comments
             ]);
         }catch (ModelNotFoundException $err){
             return Inertia::location(route('posts.index'));
@@ -71,7 +77,7 @@ class PostController extends Controller
     }
 
     public function indexMyPosts(Request $request):Response{
-        $post = (new Auth)::user()->posts()->with('user')->paginate(10);
+        $post = (new Auth)::user()->posts()->with('user')->withCount('comments')->orderByDesc('created_at')->paginate(10);
         return Inertia::render('Post/Index', [
             'data'=> $post
         ]);

@@ -26,8 +26,8 @@
                         <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500" @click="showPost(post.id)">{{ post.user.name }}</td>
                         <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500" @click="showPost(post.id)">{{ getShortTime(post.created_at) }}</td>
                         <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500 flex gap-1" v-if="post.user_id===auth?.user?.id">
-                            <button class="hover:font-semibold" @click="editPostPage({id: post.id})">수정</button>
-                            <button class="hover:font-semibold" @click="destroyPost({id: post.id})">삭제</button>
+                            <TextButton @event="editPostPage({id: post.id})" title="수정" />
+                            <TextButton @event="destroyPost({id: post.id})" title="삭제" />
                         </td>
                     </tr>
                 </tbody>
@@ -46,6 +46,7 @@ import Button from "@/Pages/Components/Button.vue";
 import usePost from "@/libs/controller/usePost.js";
 import useUtils from "@/libs/useUtils.js";
 import Modal from "@/Pages/Components/Modal.vue";
+import TextButton from "@/Pages/Components/TextButton.vue";
 
 const props = defineProps({
     data: Object,
