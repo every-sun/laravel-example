@@ -1,5 +1,5 @@
 <template>
-    <li class="w-full border-b border-gray-300" >
+    <li class="w-full border-b border-gray-300 py-2" >
         <div>
             <div class="flex justify-between flex-col">
               <TextButton :title="item.post.title" @event="showPost({id: item.post.id})"/>
@@ -7,11 +7,11 @@
             <p>
                 {{ item.content }}
             </p>
-            <TextButton v-if="item.user.id===auth?.user?.id" title="삭제" size="text-xs" @event="emits('destroyComment', item.id)" />
             <div class="flex gap-1.5 py-1">
                 <p class="text-xs text-gray-500">{{ getShortTime(item.created_at) }}</p>
                 <TextButton v-if="route().current('user.comments.likes.index')" :title="`좋아요${item.likes_count>0?`(${item.likes_count})`:''}`" size="text-xs" @event="destroyLike({id: item.id})"><template v-slot:icon><HeartIcon class="w-[16px] text-red-500" /></template></TextButton>
                 <p v-else class="text-xs text-gray-500">좋아요 ({{ item.likes_count }})</p>
+                <TextButton v-if="item.user.id===auth?.user?.id" title="삭제" size="text-xs" @event="emits('destroyComment', item.id)" />
             </div>
         </div>
     </li>

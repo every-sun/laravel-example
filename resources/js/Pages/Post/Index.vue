@@ -20,14 +20,16 @@
                 </tbody>
                 <tbody v-else class="divide-y divide-gray-200 bg-white">
                     <tr v-for="(post, i) in data.data" :key="post.id" class="cursor-pointer hover:bg-yellow-50">
-                        <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500" @click="showPost({id: post.id})">{{ i+1 }}</td>
+                        <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500" @click="showPost({id: post.id})">{{ (route().params.page && route().params.page>1)?(parseInt(route().params.page)*10)+(i+1):(i+1) }}</td>
                         <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500 hover:font-semibold" @click="showPost({id: post.id})">
                             <span>{{ post.title }}</span><span v-if="post.comments_count > 0">{{` (${post.comments_count})` }}</span></td>
                         <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500" @click="showPost({id: post.id})">{{ post.user.name }}</td>
                         <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500" @click="showPost({id: post.id})">{{ getShortTime(post.created_at) }}</td>
-                        <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500 flex gap-1" v-if="post.user_id===auth?.user?.id">
-                            <TextButton @event="editPostPage({id: post.id})" title="수정" />
-                            <TextButton @event="destroyPost({id: post.id})" title="삭제" />
+                        <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500" v-if="post.user_id===auth?.user?.id">
+                            <div class="flex gap-1">
+                                <TextButton @event="editPostPage({id: post.id})" title="수정" />
+                                <TextButton @event="destroyPost({id: post.id})" title="삭제" />
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -62,6 +64,8 @@ const { getShortTime } = useUtils();
 const modalRef = ref(null);
 
 const {editPostPage, destroyPost, showPost} = usePost({modalRef});
+
+console.log(route().params.page);
 
 const pageTitle = computed(()=>{
     if(route().current('user.posts.index')){
