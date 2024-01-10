@@ -12,8 +12,7 @@
                 {{ item.content }}
             </p>
             <div class="self-end" v-if="item.user.id===auth?.user?.id">
-                <Button title="수정" size="text-xs" @event="editableId = item.id"/>
-                <Button class="ml-1" title="삭제" size="text-xs" @event="emits('destroyComment', item.id)"/>
+                <slot name="buttons"></slot>
             </div>
         </div>
 
@@ -28,7 +27,7 @@ import Button from "@/Pages/Components/Button.vue";
 
 const props = defineProps({
     item: Object,
-    auth: Object || null || undefined
+    auth: Object || null || undefined,
 })
 
 const { getShortTime } = useUtils();

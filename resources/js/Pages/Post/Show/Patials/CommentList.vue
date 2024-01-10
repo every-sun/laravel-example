@@ -16,13 +16,19 @@
                         <ChatBubbleLeftEllipsisIcon class="w-10"/>
                         <CommentForm class="w-full" :hint-text="`${item.user.name}님에게 답글 입력중...`" :parent-id="parentId" @submit-success="parentId=null"/>
                     </div>
-                    <div v-else class="flex gap-1 justify-end" v-if="item.user.id===auth?.user?.id">
+                    <div v-else class="flex gap-1 justify-end py-1" v-if="item.user.id===auth?.user?.id">
                         <Button title="답글" size="text-xs" @event="parentId = item.id" />
                         <Button title="수정" size="text-xs" @event="editableId = item.id"/>
                         <Button title="삭제" size="text-xs" @event="emits('destroyComment', item.id)"/>
                     </div>
                     <div v-for="reply in item.replies" :key="reply.id" >
-                        <ReplyItem :item="reply" :auth="auth"/>
+                        <ReplyItem v-if="editableId!==reply.id" :item="reply" :auth="auth">
+                            <template v-slot:buttons>
+                                <Button title="수정" size="text-xs" @event="editableId = reply.id"/>
+                                <Button class="ml-1" title="삭제" size="text-xs" @event="emits('destroyComment', reply.id)"/>
+                            </template>
+                        </ReplyItem>
+                        <CommentForm class="p-2 pl-10" v-else :data="reply" @submit-success="editableId=null" />
                     </div>
                 </div>
                 <CommentForm v-else :data="item" @submit-success="editableId=null" />
