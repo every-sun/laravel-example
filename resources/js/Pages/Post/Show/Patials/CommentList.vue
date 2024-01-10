@@ -3,11 +3,10 @@
         <ul class="flex flex-col gap-2">
             <li class="border-b border-gray-300" v-for="item in data.data" :key="item.id">
                 <div v-if="editableId!==item.id">
-                    <div class="flex justify-between">
+                    <div class="flex justify-between flex-col">
                         <p class="text-xs">
                             {{ item.user.name }}
                         </p>
-                        <p class="text-xs text-gray-500">{{ getShortTime(item.created_at) }}</p>
                     </div>
                     <p class="py-2">
                         {{ item.content }}
@@ -16,16 +15,18 @@
                         <ChatBubbleLeftEllipsisIcon class="w-10"/>
                         <CommentForm class="w-full" :hint-text="`${item.user.name}님에게 답글 입력중...`" :parent-id="parentId" @submit-success="parentId=null"/>
                     </div>
-                    <div v-else class="flex gap-1 justify-end py-1" v-if="item.user.id===auth?.user?.id">
-                        <Button title="답글" size="text-xs" @event="parentId = item.id" />
-                        <Button title="수정" size="text-xs" @event="editableId = item.id"/>
-                        <Button title="삭제" size="text-xs" @event="emits('destroyComment', item.id)"/>
+                    <div v-else class="flex gap-1.5 py-1" v-if="item.user.id===auth?.user?.id">
+                        <p class="text-xs text-gray-500">{{ getShortTime(item.created_at) }}</p>
+                        <TextButton title="답글달기" size="text-xs" @event="parentId = item.id" />
+                        <TextButton title="수정" size="text-xs" @event="editableId = item.id"/>
+                        <TextButton title="삭제" size="text-xs" @event="emits('destroyComment', item.id)"/>
+                        <TextButton title="좋아요" size="text-xs"><template v-slot:icon><HeartIcon class="w-[16px]" /></template></TextButton>
                     </div>
                     <div v-for="reply in item.replies" :key="reply.id" >
                         <ReplyItem v-if="editableId!==reply.id" :item="reply" :auth="auth">
                             <template v-slot:buttons>
-                                <Button title="수정" size="text-xs" @event="editableId = reply.id"/>
-                                <Button class="ml-1" title="삭제" size="text-xs" @event="emits('destroyComment', reply.id)"/>
+                                <TextButton title="수정" size="text-xs" @event="editableId = reply.id"/>
+                                <TextButton class="ml-1" title="삭제" size="text-xs" @event="emits('destroyComment', reply.id)"/>
                             </template>
                         </ReplyItem>
                         <CommentForm class="p-2 pl-10" v-else :data="reply" @submit-success="editableId=null" />
@@ -39,10 +40,11 @@
 <script setup>
 import { ref } from "vue";
 import CommentForm from "@/Pages/Post/Show/Patials/CommentForm.vue";
-import {ChatBubbleLeftEllipsisIcon} from "@heroicons/vue/24/solid/index.js";
+import {ChatBubbleLeftEllipsisIcon, HeartIcon} from "@heroicons/vue/24/solid/index.js";
 import useUtils from "@/libs/useUtils.js";
 import Button from "@/Pages/Components/Button.vue";
 import ReplyItem from "@/Pages/Post/Show/Patials/ReplyItem.vue";
+import TextButton from "@/Pages/Components/TextButton.vue";
 
 const props = defineProps({
     data: Object,

@@ -11,7 +11,7 @@
             <p class="py-2">
                 {{ item.content }}
             </p>
-            <div class="self-end" v-if="item.user.id===auth?.user?.id">
+            <div class="items-center flex" v-if="item.user.id===auth?.user?.id">
                 <slot name="buttons"></slot>
             </div>
         </div>
