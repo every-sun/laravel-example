@@ -1,7 +1,7 @@
 <template>
-    <Layout title="게시글 목록">
+    <Layout :title="pageTitle">
         <div class="w-full flex flex-col h-full justify-between items-center">
-            <table class="w-full divide-y divide-gray-300 border-2 justify-center">
+            <table class="w-full divide-y divide-gray-300 border-2 justify-center h-[90%]">
                 <thead>
                     <tr class="w-full">
                         <th scope="col" class="px-3 py-1 text-left text-sm font-semibold text-gray-900 w-[10%] ">번호</th>
@@ -20,11 +20,11 @@
                 </tbody>
                 <tbody v-else class="divide-y divide-gray-200 bg-white">
                     <tr v-for="(post, i) in data.data" :key="post.id" class="cursor-pointer hover:bg-yellow-50">
-                        <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500" @click="showPost(post.id)">{{ i+1 }}</td>
-                        <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500 hover:font-semibold" @click="showPost(post.id)">
+                        <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500" @click="showPost({id: post.id})">{{ i+1 }}</td>
+                        <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500 hover:font-semibold" @click="showPost({id: post.id})">
                             <span>{{ post.title }}</span><span v-if="post.comments_count > 0">{{` (${post.comments_count})` }}</span></td>
-                        <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500" @click="showPost(post.id)">{{ post.user.name }}</td>
-                        <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500" @click="showPost(post.id)">{{ getShortTime(post.created_at) }}</td>
+                        <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500" @click="showPost({id: post.id})">{{ post.user.name }}</td>
+                        <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500" @click="showPost({id: post.id})">{{ getShortTime(post.created_at) }}</td>
                         <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500 flex gap-1" v-if="post.user_id===auth?.user?.id">
                             <TextButton @event="editPostPage({id: post.id})" title="수정" />
                             <TextButton @event="destroyPost({id: post.id})" title="삭제" />
@@ -40,7 +40,7 @@
 <script setup>
 import Layout from "@/Pages/Components/Layout.vue";
 import {router} from "@inertiajs/vue3";
-import { inject, ref } from "vue";
+import { computed, inject, ref } from "vue";
 import PaginationButtons from "../Components/PaginationButtons.vue";
 import Button from "@/Pages/Components/Button.vue";
 import usePost from "@/libs/controller/usePost.js";
@@ -61,12 +61,17 @@ const { getShortTime } = useUtils();
 
 const modalRef = ref(null);
 
-const {editPostPage, destroyPost} = usePost({modalRef});
+const {editPostPage, destroyPost, showPost} = usePost({modalRef});
 
-const showPost = (id) => {
-    router.get(route('post.show', {id: id}));
-}
-
+const pageTitle = computed(()=>{
+    if(route().current('user.posts.index')){
+        return `내 게시글${props.data.total>0?`(${props.data.total})`:''}`
+    }if(route().current('user.bookmarks.index')){
+        return `북마크${props.data.total>0?`(${props.data.total})`:''}`
+    }else{
+        return '게시글 목록';
+    }
+})
 
 </script>
 

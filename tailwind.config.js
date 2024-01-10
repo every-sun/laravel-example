@@ -18,10 +18,10 @@ export default {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                'primary': '#000000',
-                'secondary': '#282824',
-                'third': '#43433A',
-                'neutral': '#86866B',
+                'primary': '#5E91C2',
+                'secondary': '#88B8E6',
+                'third': '#444655',
+                'neutral': '#555555',
             }
         },
     },

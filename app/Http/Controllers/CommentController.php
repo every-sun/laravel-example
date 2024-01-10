@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\CommentLike;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class CommentController extends Controller
 {
@@ -44,6 +46,21 @@ class CommentController extends Controller
             return to_route('post.show', ['id'=>$post_id]);
         }catch (ModelNotFoundException $err){
             return to_route('post.show', ['id'=>$post_id]);
+        }
+    }
+
+    public function indexMyComments(Request $request){
+        $data = (new Comment)::where('user_id', Auth::id())->with(['post', 'user'])->withCount('likes')->orderByDesc('created_at')->paginate(10);
+        return Inertia::render('MyPage/Comment/Index', [
+            'data'=>$data,
+        ]);
+    }
+    public function destroyMyComments(Request $request, $id){
+        try{
+            (new Comment)::findOrFail($id)->delete();
+            return to_route('user.comments.index');
+        }catch (ModelNotFoundException $err){
+            return to_route('user.comments.index');
         }
     }
 }

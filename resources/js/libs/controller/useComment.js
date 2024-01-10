@@ -24,6 +24,18 @@ export default function useComment({modalRef}){
         })
     }
 
+    const destroyMyComment = (id) => {
+        if(modalRef===null){
+            return;
+        }
+        modal.openModal({
+            content: '댓글을 삭제하시겠습니까?',
+            event: ()=>{
+                router.delete(route('user.comment.destroy', {id}));
+            }
+        })
+    }
+
     const storeLike = ({id}) => {
         router.post(route('comment.like.store', {comment_id:id}));
     }
@@ -37,6 +49,7 @@ export default function useComment({modalRef}){
         updateComment,
         destroyComment,
         storeLike,
-        destroyLike
+        destroyLike,
+        destroyMyComment
     };
 }

@@ -5,8 +5,19 @@
                 <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=white" alt="Your Company" />
             </div>
             <nav class="flex flex-1 flex-col">
-                <ul role="list" class="-mx-2 space-y-1">
-                    <li v-for="item in navigation" :key="item.name">
+                <h3 class="text-white font-semibold mb-3">메인</h3>
+                <ul role="list" class="-mx-2">
+                    <li v-for="item in mainNavigation" :key="item.name">
+                        <a :href="item.href" :class="[item.current ? 'bg-secondary text-white' : 'text-neutral hover:text-white hover:bg-secondary', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
+                            <component :is="item.icon" :class="[item.current ? 'text-white' : 'text-neutral group-hover:text-white', 'h-6 w-6 shrink-0']" aria-hidden="true" />
+                            {{ item.name }}
+                        </a>
+                    </li>
+                </ul>
+                <hr class="my-6"/>
+                <h3 class="text-white font-semibold mb-4">사용자</h3>
+                <ul role="list" class="-mx-2 mb-3">
+                    <li v-for="item in userNavigation" :key="item.name">
                         <a :href="item.href" :class="[item.current ? 'bg-secondary text-white' : 'text-neutral hover:text-white hover:bg-secondary', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
                             <component :is="item.icon" :class="[item.current ? 'text-white' : 'text-neutral group-hover:text-white', 'h-6 w-6 shrink-0']" aria-hidden="true" />
                             {{ item.name }}
@@ -42,10 +53,17 @@ const props = defineProps(
 
 const route = inject('route')
 
-const navigation = [
+const mainNavigation = [
     { name: '목록', href: route('posts.index'), icon: FolderIcon, current: route().current('posts.index'), },
     { name: '작성', href: route('post.create'), icon: PlusIcon, current: route().current('post.create') },
+]
+
+
+const userNavigation = [
     { name: '내 게시글', href: route('user.posts.index'), icon: UserIcon, current: route().current('user.posts.index') },
+    { name: '북마크', href: route('user.bookmarks.index'), icon: UserIcon, current: route().current('user.bookmarks.index') },
+    { name: '내 댓글', href: route('user.comments.index'), icon: UserIcon, current: route().current('user.comments.index') },
+    { name: '좋아한 댓글', href: route('user.comments.likes.index'), icon: UserIcon, current: route().current('user.comments.likes.index') },
 ]
 
 

@@ -43,12 +43,12 @@ class PostController extends Controller
             'title'=>'required|max:40',
             'content'=>'required'
         ]);
-        (new Post)::create([
+        $post = (new Post)::create([
             'user_id'=> Auth::id(),
             'title'=> $request->input('title'),
             'content'=> $request->input('content'),
         ]);
-        return to_route('posts.index');
+        return to_route('post.show', ['id'=>$post->id]);
     }
     public function editPost(Request $request, $id) {
         try{
