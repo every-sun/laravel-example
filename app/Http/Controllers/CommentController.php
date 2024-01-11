@@ -13,7 +13,7 @@ class CommentController extends Controller
 {
     public function storeComment(Request $request, $post_id){
         $request->validate([
-            'content'=>'required'
+            'content'=>'required|max:255'
         ]);
         $parent_id=$request->input('parent_id');
         (new Comment)::create([
@@ -22,31 +22,19 @@ class CommentController extends Controller
             'parent_id'=>$parent_id,
             'content'=> $request->input('content'),
         ]);
-        return to_route('post.show', ['id'=>$post_id]);
     }
 
     public function updateComment(Request $request, $post_id, $id){
-        try{
-            $request->validate([
-                'content'=>'required'
-            ]);
-            (new Comment)::findOrFail($id)->update([
-                'content'=> $request->input('content'),
-            ]);
-
-            return to_route('post.show', ['id'=>$post_id]);
-        }catch (ModelNotFoundException $err){
-            return to_route('post.show', ['id'=>$post_id]);
-        }
+        $request->validate([
+            'content'=>'required|max:255'
+        ]);
+        (new Comment)::findOrFail($id)->update([
+            'content'=> $request->input('content'),
+        ]);
     }
 
     public function destroyComment(Request $request, $post_id, $id){
-        try{
-            (new Comment)::findOrFail($id)->delete();
-            return to_route('post.show', ['id'=>$post_id]);
-        }catch (ModelNotFoundException $err){
-            return to_route('post.show', ['id'=>$post_id]);
-        }
+        (new Comment)::findOrFail($id)->delete();
     }
 
     public function indexMyComments(Request $request){
@@ -54,13 +42,5 @@ class CommentController extends Controller
         return Inertia::render('MyPage/Comment/Index', [
             'data'=>$data,
         ]);
-    }
-    public function destroyMyComments(Request $request, $id){
-        try{
-            (new Comment)::findOrFail($id)->delete();
-            return to_route('user.comments.index');
-        }catch (ModelNotFoundException $err){
-            return to_route('user.comments.index');
-        }
     }
 }

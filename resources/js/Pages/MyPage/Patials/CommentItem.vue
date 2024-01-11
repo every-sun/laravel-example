@@ -11,7 +11,7 @@
                 <p class="text-xs text-gray-500">{{ getShortTime(item.created_at) }}</p>
                 <TextButton v-if="route().current('user.comments.likes.index')" :title="`좋아요${item.likes_count>0?`(${item.likes_count})`:''}`" size="text-xs" @event="destroyLike({id: item.id})"><template v-slot:icon><HeartIcon class="w-[16px] text-red-500" /></template></TextButton>
                 <p v-else class="text-xs text-gray-500">좋아요 ({{ item.likes_count }})</p>
-                <TextButton v-if="item.user.id===auth?.user?.id" title="삭제" size="text-xs" @event="emits('destroyComment', item.id)" />
+                <TextButton v-if="item.user.id===auth?.user?.id" title="삭제" size="text-xs" @event="emits('destroyComment', {id: item.id, post_id: item.post.id})" />
             </div>
         </div>
     </li>

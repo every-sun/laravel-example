@@ -40,7 +40,7 @@ class PostController extends Controller
     }
     public function storePost(Request $request){
         $request->validate([
-            'title'=>'required|max:40',
+            'title'=>'required|max:255',
             'content'=>'required'
         ]);
         $post = (new Post)::create([
@@ -62,7 +62,7 @@ class PostController extends Controller
     }
     public function updatePost(Request $request, $id) {
         $request->validate([
-            'title'=>'required|max:40',
+            'title'=>'required|max:255',
             'content'=>'required'
         ]);
         (new Post)::findOrFail($id)->update([
@@ -73,7 +73,6 @@ class PostController extends Controller
     }
     public function destroyPost(Request $request, $id) {
         (new Post)::findOrFail($id)->delete();
-        return to_route('posts.index');
     }
 
     public function indexMyPosts(Request $request):Response{

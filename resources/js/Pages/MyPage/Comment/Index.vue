@@ -2,7 +2,7 @@
     <Layout :title="route().current('user.comments.likes.index')?`좋아한 댓글${data.total>0?`(${data.total})`:''}`:`내 댓글${data.total>0?`(${data.total})`:''}`">
         <div class="w-full flex flex-col justify-between items-center h-full">
             <ul class="w-full h-[90%] justify-center overflow-y-auto">
-                <CommentItem v-for="comment in data.data" :item="comment" :key="comment.id" :auth="auth" @destroy-comment="destroyMyComment"/>
+                <CommentItem v-for="comment in data.data" :item="comment" :key="comment.id" :auth="auth" @destroy-comment="destroyComment"/>
             </ul>
             <PaginationButtons :links="props.data.links"/>
         </div>
@@ -26,7 +26,7 @@ const route = inject('route')
 
 const modalRef = ref(null);
 
-const {destroyMyComment} = useComment({modalRef});
+const {destroyComment} = useComment({modalRef});
 
 </script>
 

@@ -31,13 +31,17 @@
                 <PaginationButtons :links="comments_data.links" class="self-center"/>
             </div>
         </div>
+        <div v-if="errors" class="bg-red-500 text-white py-2 px-4 pr-0 rounded font-bold mb-4 shadow-lg">
+            {{ errors }}
+        </div>
         <Modal ref="modalRef"/>
+        <ErrorPopup :error="errors.content" />
     </Layout>
 </template>
 <script setup>
 import Layout from "@/Pages/Components/Layout.vue";
 import Button from "@/Pages/Components/Button.vue";
-import { ref } from "vue";
+import { inject, onMounted, onUpdated, ref } from "vue";
 import Modal from "@/Pages/Components/Modal.vue";
 import usePost from "@/libs/controller/usePost.js";
 import useUtils from "@/libs/useUtils.js";
@@ -45,13 +49,16 @@ import CommentForm from "@/Pages/Post/Show/Patials/CommentForm.vue";
 import useComment from "@/libs/controller/useComment.js";
 import CommentList from "@/Pages/Post/Show/Patials/CommentList.vue";
 import PaginationButtons from "@/Pages/Components/PaginationButtons.vue";
+import useModal from "@/libs/useModal.js";
+import ErrorPopup from "@/Pages/Components/ErrorPopup.vue";
 
 const props = defineProps(
     {
         data: Object,
         auth: Object || null || undefined,
         comments_data: Object,
-        user_like_comments: Object
+        user_like_comments: Object,
+        errors: Object || null || undefined,
     }
 )
 
@@ -64,5 +71,4 @@ const {destroyComment} = useComment({modalRef});
 const { getLongTime } = useUtils();
 
 
-console.log(props.comments_data);
 </script>

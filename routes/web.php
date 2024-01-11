@@ -39,7 +39,6 @@ Route::middleware([
     Route::get('/user/posts', [PostController::class, 'indexMyPosts'])->name('user.posts.index');
     Route::get('/user/bookmarks', [PostController::class, 'indexMyPosts'])->name('user.bookmarks.index'); // TODO
     Route::get('/user/comments', [CommentController::class, 'indexMyComments'])->name('user.comments.index');
-    Route::delete('/user/comment/{id}', [CommentController::class, 'destroyMyComments'])->name('user.comment.destroy');
     Route::get('/user/comments/likes', [CommentLikeController::class, 'indexLikedComments'])->name('user.comments.likes.index');
 
 

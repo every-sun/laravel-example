@@ -15,19 +15,27 @@ export default function usePost({modalRef}){
         modal.openModal({
             content: '게시글을 등록하시겠습니까?',
             event: ()=>{
-                router.post(route('post.store'), form);
+                form.post(route('post.store'), {
+                    onError: (errors)=>{
+                        console.log(errors)
+                    }
+                })
             }
         })
     }
 
-    const updatePost = ({id, form}) => {
+    const updatePost = ({form, id}) => {
         if(modalRef===null){
             return;
         }
         modal.openModal({
             content: '게시글을 수정하시겠습니까?',
             event: ()=>{
-                router.put(route('post.update', {id: id}), form);
+                form.put(route('post.update', {id: id}), {
+                    onError: (errors)=>{
+                        console.log(errors)
+                    }
+                });
             }
         })
     }

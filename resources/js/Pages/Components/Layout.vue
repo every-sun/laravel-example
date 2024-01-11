@@ -40,7 +40,11 @@
 import {
     FolderIcon,
     PlusIcon,
-    UserIcon
+    PencilIcon,
+    Bars3Icon,
+    BookmarkIcon,
+    ChatBubbleLeftIcon,
+    HeartIcon
 } from '@heroicons/vue/24/outline'
 import { inject, ref } from "vue";
 
@@ -54,16 +58,16 @@ const props = defineProps(
 const route = inject('route')
 
 const mainNavigation = [
-    { name: '목록', href: route('posts.index'), icon: FolderIcon, current: route().current('posts.index'), },
-    { name: '작성', href: route('post.create'), icon: PlusIcon, current: route().current('post.create') },
+    { name: '목록', href: route('posts.index'), icon: Bars3Icon, current: route().current('posts.index'), },
+    { name: '작성', href: route('post.create'), icon: PencilIcon, current: route().current('post.create') },
 ]
 
 
 const userNavigation = [
-    { name: '내 게시글', href: route('user.posts.index'), icon: UserIcon, current: route().current('user.posts.index') },
-    { name: '북마크', href: route('user.bookmarks.index'), icon: UserIcon, current: route().current('user.bookmarks.index') },
-    { name: '내 댓글', href: route('user.comments.index'), icon: UserIcon, current: route().current('user.comments.index') },
-    { name: '좋아한 댓글', href: route('user.comments.likes.index'), icon: UserIcon, current: route().current('user.comments.likes.index') },
+    { name: '내 게시글', href: route('user.posts.index'), icon: FolderIcon, current: route().current('user.posts.index') },
+    { name: '북마크', href: route('user.bookmarks.index'), icon: BookmarkIcon, current: route().current('user.bookmarks.index') },
+    { name: '내 댓글', href: route('user.comments.index'), icon: ChatBubbleLeftIcon, current: route().current('user.comments.index') },
+    { name: '좋아한 댓글', href: route('user.comments.likes.index'), icon: HeartIcon, current: route().current('user.comments.likes.index') },
 ]
 
 
