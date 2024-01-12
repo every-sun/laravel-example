@@ -24,6 +24,16 @@
                         </a>
                     </li>
                 </ul>
+                <hr class="my-6"/>
+                <h3 class="text-white font-semibold mb-4">임시</h3>
+                <ul role="list" class="-mx-2 mb-3">
+                    <li v-for="item in temporaryNavigation" :key="item.name">
+                        <a :href="item.href" :class="[item.current ? 'bg-secondary text-white' : 'text-neutral hover:text-white hover:bg-secondary', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
+                            <component :is="item.icon" :class="[item.current ? 'text-white' : 'text-neutral group-hover:text-white', 'h-6 w-6 shrink-0']" aria-hidden="true" />
+                            {{ item.name }}
+                        </a>
+                    </li>
+                </ul>
             </nav>
         </div>
     </div>
@@ -39,12 +49,13 @@
 <script setup>
 import {
     FolderIcon,
-    PlusIcon,
+    PhotoIcon,
     PencilIcon,
     Bars3Icon,
     BookmarkIcon,
     ChatBubbleLeftIcon,
-    HeartIcon
+    HeartIcon,
+    CameraIcon
 } from '@heroicons/vue/24/outline'
 import { inject, ref } from "vue";
 
@@ -65,9 +76,14 @@ const mainNavigation = [
 
 const userNavigation = [
     { name: '내 게시글', href: route('user.posts.index'), icon: FolderIcon, current: route().current('user.posts.index') },
-    { name: '북마크', href: route('user.bookmarks.index'), icon: BookmarkIcon, current: route().current('user.bookmarks.index') },
+    { name: '북마크(보류)', href: route('user.bookmarks.index'), icon: BookmarkIcon, current: route().current('user.bookmarks.index') },
     { name: '내 댓글', href: route('user.comments.index'), icon: ChatBubbleLeftIcon, current: route().current('user.comments.index') },
     { name: '좋아한 댓글', href: route('user.comments.likes.index'), icon: HeartIcon, current: route().current('user.comments.likes.index') },
+]
+
+const temporaryNavigation = [
+    { name: '앨범(진행중)', href: route('files.index'), icon: PhotoIcon, current: route().current('files.index'), },
+    { name: '업로드(진행중)', href: route('files.create'), icon: CameraIcon, current: route().current('files.create'), },
 ]
 
 

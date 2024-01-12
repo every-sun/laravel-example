@@ -14,7 +14,7 @@
 </template>
 <script setup>
 import Layout from "@/Pages/Components/Layout.vue";
-import { ref } from "vue";
+import { onUpdated, ref } from "vue";
 import Button from "@/Pages/Components/Button.vue";
 import Modal from "@/Pages/Components/Modal.vue";
 import Input from "@/Pages/Components/Input.vue";
@@ -33,7 +33,7 @@ const {storePost, updatePost} = usePost({modalRef});
 const form = useForm({
     title : props.data?.title,
     content: props.data?.content,
-    writer: props.data?.writer
+    writer: props.data?.writer,
 })
 
 const submit = () => {
@@ -43,6 +43,5 @@ const submit = () => {
         updatePost({form, id: props.data.id})
     }
 }
-
 
 </script>

@@ -1,7 +1,7 @@
 <template>
     <Layout :title="pageTitle">
         <div class="w-full flex flex-col h-full justify-between items-center">
-            <table class="w-full divide-y divide-gray-300 border-2 justify-center h-[90%]">
+            <table class="w-full divide-y divide-gray-300 border-2 justify-center ">
                 <thead>
                     <tr class="w-full">
                         <th scope="col" class="px-3 py-1 text-left text-sm font-semibold text-gray-900 w-[10%] ">번호</th>
