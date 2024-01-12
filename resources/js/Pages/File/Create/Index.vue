@@ -4,8 +4,8 @@
             <form @submit.prevent="onSubmit" class="flex flex-col gap-2 w-full">
                 <Input name="제목" v-model="form.name" />
                 <input type="file" @change="onFileSelect($event.target.files)" multiple accept="image/*"/>
-                <div>
-                    <img class="inline-block w-48 border-2 border-gray-200 p-2" v-for="url in imageUrls" :src="url" alt="이미지"/>
+                <div class="grid grid-cols-5">
+                    <img class="w-56 border-2 border-gray-200 p-2" v-for="url in imageUrls" :src="url" alt="이미지"/>
                 </div>
                 <Button title="전송" />
                 <progress v-if="form.progress" :value="form.progress.percentage" max="100">
