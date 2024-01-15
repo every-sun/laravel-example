@@ -7,7 +7,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CommentLikeController;
 use App\Http\Controllers\FileController;
-
+use App\Http\Controllers\RoleController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -43,7 +43,6 @@ Route::middleware([
     Route::get('/user/comments', [CommentController::class, 'indexMyComments'])->name('user.comments.index');
     Route::get('/user/comments/likes', [CommentLikeController::class, 'indexLikedComments'])->name('user.comments.likes.index');
 
-
     Route::post('/comment/{comment_id}/like', [CommentLikeController::class, 'storeCommentLike'])->name('comment.like.store');
     Route::delete('/comment/{comment_id}/like', [CommentLikeController::class, 'destroyCommentLike'])->name('comment.like.destroy');
 
@@ -65,5 +64,8 @@ Route::middleware([
 Route::get('/post', [PostController::class, 'indexPosts'])->name('posts.index');
 Route::get('/post/{id}', [PostController::class, 'showPost'])->name('post.show');
 
-
+// TODO 관리자만 들어갈 수 있게 하기
+Route::get('/roles', [RoleController::class, 'indexRoles'])->name('roles.index');
+Route::post('/role', [RoleController::class, 'storeRole'])->name('role.store');
+Route::put('/user/{user_id}/role/{role_id}', [RoleController::class, 'updateUserRole'] )->name('user.role.update');
 

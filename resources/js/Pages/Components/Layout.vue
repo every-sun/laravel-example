@@ -55,7 +55,8 @@ import {
     BookmarkIcon,
     ChatBubbleLeftIcon,
     HeartIcon,
-    CameraIcon
+    CameraIcon,
+    HandThumbUpIcon
 } from '@heroicons/vue/24/outline'
 import { inject, ref } from "vue";
 
@@ -84,6 +85,7 @@ const userNavigation = [
 const temporaryNavigation = [
     { name: '앨범(진행중)', href: route('files.index'), icon: PhotoIcon, current: route().current('files.index'), },
     { name: '업로드(진행중)', href: route('files.create'), icon: CameraIcon, current: route().current('files.create'), },
+    { name: 'User Role', href: route('roles.index'), icon: HandThumbUpIcon, current: route().current('roles.index') }
 ]
 
 

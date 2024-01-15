@@ -1,5 +1,5 @@
 <template>
-    <Layout title="파일">
+    <Layout title="이미지 업로드">
         <div class="w-full flex gap-1">
             <form @submit.prevent="onSubmit" class="flex flex-col gap-2 w-full">
                 <Input name="제목" v-model="form.name" />

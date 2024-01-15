@@ -14,7 +14,9 @@ class Post extends Model
     use HasFactory;
     protected $fillable = ['title', 'content', 'writer', 'user_id'];
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withDefault([
+            'name'=>'익명',
+        ]);
     }
 
     public function comments(){

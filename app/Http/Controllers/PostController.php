@@ -72,7 +72,7 @@ class PostController extends Controller
         return to_route('post.show', ['id'=>$request->route('id')]);
     }
     public function destroyPost(Request $request, $id) {
-        (new Post)::findOrFail($id)->delete();
+        (new Post)::destroy($id);
     }
 
     public function indexMyPosts(Request $request):Response{

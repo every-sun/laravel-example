@@ -34,7 +34,7 @@ class CommentController extends Controller
     }
 
     public function destroyComment(Request $request, $post_id, $id){
-        (new Comment)::findOrFail($id)->delete();
+        (new Comment)::destroy($id);
     }
 
     public function indexMyComments(Request $request){
