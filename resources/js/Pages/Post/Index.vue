@@ -72,6 +72,8 @@ const pageTitle = computed(()=>{
         return `내 게시글${props.data.total>0?`(${props.data.total})`:''}`
     }if(route().current('user.bookmarks.index')){
         return `북마크${props.data.total>0?`(${props.data.total})`:''}`
+    }if(route().current('posts.history.index')){
+        return '최근 본 게시글';
     }else{
         return '게시글 목록';
     }

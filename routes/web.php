@@ -8,6 +8,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CommentLikeController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Middleware\CheckUserRole;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -64,8 +65,12 @@ Route::middleware([
 Route::get('/post', [PostController::class, 'indexPosts'])->name('posts.index');
 Route::get('/post/{id}', [PostController::class, 'showPost'])->name('post.show');
 
-// TODO 관리자만 들어갈 수 있게 하기
-Route::get('/roles', [RoleController::class, 'indexRoles'])->name('roles.index');
-Route::post('/role', [RoleController::class, 'storeRole'])->name('role.store');
-Route::put('/user/{user_id}/role/{role_id}', [RoleController::class, 'updateUserRole'] )->name('user.role.update');
 
+Route::middleware(['role'])->group(function(){
+    Route::get('/roles', [RoleController::class, 'indexRoles'])->name('roles.index');
+    Route::post('/role', [RoleController::class, 'storeRole'])->name('role.store');
+    Route::put('/user/{user_id}/role/{role_id}', [RoleController::class, 'updateUserRole'] )->name('user.role.update');
+});
+
+
+Route::get('/posts/history', [PostController::class, 'indexPostsHistory'])->name('posts.history.index');

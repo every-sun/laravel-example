@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CommentLike;
 use App\Models\Post;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +21,14 @@ class PostController extends Controller
     }
     public function showPost(Request $request, $id) {
         try{
+            $viewedIds = Cache::get('posts_history');
+            if(is_null($viewedIds)){
+                $viewedIds = [];
+            }
+            if(!in_array((int)$id, $viewedIds)){
+                $history = array_merge($viewedIds, [(int)$id]);
+                Cache::store('redis')->put('posts_history', $history, 600);
+            }
             $post = (new Post)::with('user')->withCount('comments')->findOrFail($id);
             $comments = $post->comments()->where('parent_id', null)->with(['user', 'replies'])->withCount('likes')->orderByDesc('created_at')->paginate(10);
             $user_like_comments = [];
@@ -79,6 +88,17 @@ class PostController extends Controller
         $post = (new Auth)::user()->posts()->with('user')->withCount('comments')->orderByDesc('created_at')->paginate(10);
         return Inertia::render('Post/Index', [
             'data'=> $post
+        ]);
+    }
+
+    public function indexPostsHistory(Request $request){
+        $ids = Cache::get('posts_history');
+        if(is_null($ids)){
+            $ids = [];
+        }
+        $post = (new Post)::whereIn('id', $ids)->with('user')->withCount('comments')->orderByDesc('created_at')->paginate(10);
+        return Inertia::render('Post/Index', [
+            'data'=>$post
         ]);
     }
 }

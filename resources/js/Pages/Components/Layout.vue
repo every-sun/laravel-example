@@ -54,10 +54,10 @@ import {
     Bars3Icon,
     BookmarkIcon,
     ChatBubbleLeftIcon,
-    HeartIcon,
     CameraIcon,
-    HandThumbUpIcon
+    HandThumbUpIcon,
 } from '@heroicons/vue/24/outline'
+import {EyeIcon, HeartIcon} from "@heroicons/vue/16/solid/index.js";
 import { inject, ref } from "vue";
 
 const props = defineProps(
@@ -71,11 +71,12 @@ const route = inject('route')
 
 const mainNavigation = [
     { name: '목록', href: route('posts.index'), icon: Bars3Icon, current: route().current('posts.index'), },
-    { name: '작성', href: route('post.create'), icon: PencilIcon, current: route().current('post.create') },
+    { name: '최근 본 게시물', href: route('posts.history.index'), icon: EyeIcon, current: route().current('posts.history.index') },
 ]
 
 
 const userNavigation = [
+    { name: '작성', href: route('post.create'), icon: PencilIcon, current: route().current('post.create') },
     { name: '내 게시글', href: route('user.posts.index'), icon: FolderIcon, current: route().current('user.posts.index') },
     { name: '북마크(보류)', href: route('user.bookmarks.index'), icon: BookmarkIcon, current: route().current('user.bookmarks.index') },
     { name: '내 댓글', href: route('user.comments.index'), icon: ChatBubbleLeftIcon, current: route().current('user.comments.index') },
@@ -83,9 +84,9 @@ const userNavigation = [
 ]
 
 const temporaryNavigation = [
-    { name: '앨범(진행중)', href: route('files.index'), icon: PhotoIcon, current: route().current('files.index'), },
-    { name: '업로드(진행중)', href: route('files.create'), icon: CameraIcon, current: route().current('files.create'), },
-    { name: 'User Role', href: route('roles.index'), icon: HandThumbUpIcon, current: route().current('roles.index') }
+    { name: '앨범', href: route('files.index'), icon: PhotoIcon, current: route().current('files.index'), },
+    { name: '업로드', href: route('files.create'), icon: CameraIcon, current: route().current('files.create'), },
+    { name: 'User Role', href: route('roles.index'), icon: HandThumbUpIcon, current: route().current('roles.index') },
 ]
 
 

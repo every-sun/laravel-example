@@ -11,7 +11,7 @@
                 @change="onSelectRole($event.target.value)"
             >
                 <option :value="0">선택</option>
-                <option v-for="role in roles" :key="role.id" :value="role.id">{{ role.name }}</option>
+                <option v-for="role in roles" :key="role.id" :value="role.id">{{ role.name }} | {{ role.priority }}</option>
             </select>
         </td>
     </tr>
