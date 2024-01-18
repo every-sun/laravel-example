@@ -60,10 +60,12 @@ export default function usePost({modalRef}){
     }
 
     const searchPosts = ({query})=>{
-        const data = {data: {query: query}}
-        console.log(data);
-
-        router.visit(route('posts.search.index'), data );
+        console.log(query);
+        if(!query){
+            return;
+        }
+        const data = {data: {query: query}};
+        router.visit(route('posts.index'), data);
     }
 
     return {

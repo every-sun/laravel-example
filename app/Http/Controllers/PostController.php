@@ -14,8 +14,16 @@ use Inertia\Response;
 
 class PostController extends Controller
 {
-    public function indexPosts() : Response{
-        $post = (new Post)::with('user')->withCount('comments')->orderByDesc('created_at')->paginate(10);
+    public function indexPosts(Request $request) : Response{
+        $input = $request->input('query');
+        if(is_null($input)){
+            $post = (new Post)::with('user')->withCount('comments')->orderByDesc('created_at')->paginate(10);
+        }else{
+            $post = (new Post)::where('title', 'like', '%' . $input . '%')->orWhere('content', 'like', '%' . $input . '%')
+                ->orWhereHas('user', function(Builder $query) use($input) {
+                    $query->where('name', 'like', '%' . $input . '%');
+                })->with('user')->withCount('comments')->orderByDesc('created_at')->paginate(10);
+        }
         return Inertia::render('Post/Index', [
             'data' => $post
         ]);
@@ -100,17 +108,6 @@ class PostController extends Controller
         $post = (new Post)::whereIn('id', $ids)->with('user')->withCount('comments')->orderByDesc('created_at')->paginate(10);
         return Inertia::render('Post/Index', [
             'data'=>$post
-        ]);
-    }
-
-    public function searchPostsIndex(Request $request){
-        $input = $request->input('query');
-        $post = (new Post)::where('title', 'like', '%' . $input . '%')->orWhere('content', 'like', '%' . $input . '%')
-            ->orWhereHas('user', function(Builder $query) use($input) {
-                $query->where('name', 'like', '%' . $input . '%');
-            })->with('user')->withCount('comments')->orderByDesc('created_at')->paginate(10);
-        return Inertia::render('Post/Index', [
-            'data'=> $post
         ]);
     }
 }

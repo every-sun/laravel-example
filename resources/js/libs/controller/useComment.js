@@ -11,12 +11,6 @@ export default function useComment({modalRef}){
                 console.log('댓글저장: ', res)
                 form.reset('content');
 
-                modal.openModal({
-                    content:'1',
-                    event: ()=>{
-
-                    }
-                })
             },
             onFinish: (visit)=>{
                 console.log(visit)

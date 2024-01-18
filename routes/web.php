@@ -40,7 +40,6 @@ Route::middleware([
     })->name('dashboard');
 
     Route::get('/user/posts', [PostController::class, 'indexMyPosts'])->name('user.posts.index');
-    Route::get('/user/bookmarks', [PostController::class, 'indexMyPosts'])->name('user.bookmarks.index'); // TODO
     Route::get('/user/comments', [CommentController::class, 'indexMyComments'])->name('user.comments.index');
     Route::get('/user/comments/likes', [CommentLikeController::class, 'indexLikedComments'])->name('user.comments.likes.index');
 
@@ -63,7 +62,6 @@ Route::middleware([
 
 Route::get('/posts', [PostController::class, 'indexPosts'])->name('posts.index');
 Route::get('/post/{id}', [PostController::class, 'showPost'])->name('post.show');
-Route::get('/posts/search', [PostController::class, 'searchPostsIndex'])->name('posts.search.index');
 
 Route::middleware(['role'])->group(function(){
     Route::get('/roles', [RoleController::class, 'indexRoles'])->name('roles.index');

@@ -1,6 +1,6 @@
 <template>
     <div class="flex w-full gap-4">
-        <Input v-model="query" />
+        <Input v-model="query" name="제목, 내용, 작성자명으로 검색해보세요" />
         <Button title="검색" @event="onSearch">
             <template v-slot:icon>
                 <MagnifyingGlassIcon class="w-4"/>

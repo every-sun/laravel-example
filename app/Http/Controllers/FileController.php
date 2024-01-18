@@ -36,7 +36,8 @@ class FileController extends Controller
 
         $data['images'] = $images;
 
-        File::create($data);
+        $file = File::create($data);
+        dd($file);
         return Inertia::location(route('files.index'));
     }
 }

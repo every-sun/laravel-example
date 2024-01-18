@@ -1,10 +1,10 @@
 <template>
     <li class="w-full border-b border-gray-300 py-2" >
-        <div>
+        <div class="w-full ">
             <div class="flex justify-between flex-col">
               <TextButton :title="item.post.title" @event="showPost({id: item.post.id})"/>
             </div>
-            <p>
+            <p class="break-all">
                 {{ item.content }}
             </p>
             <div class="flex gap-1.5 py-1">

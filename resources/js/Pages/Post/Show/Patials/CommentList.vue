@@ -8,7 +8,7 @@
                             {{ item.user.name }}
                         </p>
                     </div>
-                    <p>
+                    <p class="break-all">
                         {{ item.content }}
                     </p>
                     <div v-if="parentId===item.id" class="flex gap-6 w-full pl-10">

@@ -2,7 +2,7 @@
     <Layout :title="pageTitle">
         <div class="w-full flex flex-col h-full justify-between items-center">
             <div class="w-full">
-                <SearchForm />
+                <SearchForm v-if="route().current('posts.index')"/>
                 <table class="w-full divide-y divide-gray-300 border-2 justify-center mt-10">
                     <thead>
                     <tr class="w-full">
@@ -66,8 +66,6 @@ const { getShortTime } = useUtils();
 const modalRef = ref(null);
 
 const {editPostPage, destroyPost, showPost} = usePost({modalRef});
-
-console.log(route().params.page);
 
 const pageTitle = computed(()=>{
     if(route().current('user.posts.index')){
