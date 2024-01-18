@@ -18,6 +18,9 @@ export default function usePost({modalRef}){
                 form.post(route('post.store'), {
                     onError: (errors)=>{
                         console.log(errors)
+                    },
+                    onSuccess: ()=>{
+
                     }
                 })
             }
@@ -56,11 +59,19 @@ export default function usePost({modalRef}){
         })
     }
 
+    const searchPosts = ({query})=>{
+        const data = {data: {query: query}}
+        console.log(data);
+
+        router.visit(route('posts.search.index'), data );
+    }
+
     return {
         showPost,
         storePost,
         updatePost,
         editPostPage,
-        destroyPost
+        destroyPost,
+        searchPosts
     };
 }

@@ -2,7 +2,9 @@
 
 namespace App\Http;
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Illuminate\Support\Facades\DB;
 
 class Kernel extends HttpKernel
 {
@@ -68,4 +70,10 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'role' => \App\Http\Middleware\CheckUserRole::class
     ];
+
+    protected function schedule(Schedule $schedule){
+        $schedule->call(function(){
+            DB::table('posts')->delete();
+        })->everyTenSeconds();
+    }
 }

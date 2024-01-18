@@ -1,26 +1,26 @@
 <template>
     <Layout :title="pageTitle">
         <div class="w-full flex flex-col h-full justify-between items-center">
-            <table class="w-full divide-y divide-gray-300 border-2 justify-center ">
-                <thead>
+            <div class="w-full">
+                <SearchForm />
+                <table class="w-full divide-y divide-gray-300 border-2 justify-center mt-10">
+                    <thead>
                     <tr class="w-full">
-                        <th scope="col" class="px-3 py-1 text-left text-sm font-semibold text-gray-900 w-[10%] ">번호</th>
-                        <th scope="col" class="px-3 py-1 text-left text-sm font-semibold text-gray-900 w-[50%]">제목</th>
+                        <th scope="col" class="px-3 py-1 text-left text-sm font-semibold text-gray-900 w-[60%]">제목</th>
                         <th scope="col" class="px-3 py-1 text-left text-sm font-semibold text-gray-900 w-[25%]">작성자</th>
                         <th scope="col" class="px-3 py-1 text-left text-sm font-semibold text-gray-900 w-[15%]">작성일</th>
                         <th scope="col" class="px-3 py-1 text-left text-sm font-semibold text-gray-900 w-[15%]"></th>
                     </tr>
-                </thead>
-                <tbody class="bg-white" v-if="data.data?.length===0">
+                    </thead>
+                    <tbody class="bg-white" v-if="data.data?.length===0">
                     <tr>
                         <td colspan="4" class="p-4 h-96 text-sm text-center text-gray-400">
                             게시글이 존재하지 않습니다.
                         </td>
                     </tr>
-                </tbody>
-                <tbody v-else class="divide-y divide-gray-200 bg-white">
+                    </tbody>
+                    <tbody v-else class="divide-y divide-gray-200 bg-white">
                     <tr v-for="(post, i) in data.data" :key="post.id" class="cursor-pointer hover:bg-yellow-50">
-                        <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500" @click="showPost({id: post.id})">{{ (route().params.page && route().params.page>1)?(parseInt(route().params.page)*10)+(i+1):(i+1) }}</td>
                         <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500 hover:font-semibold" @click="showPost({id: post.id})">
                             <span>{{ post.title }}</span><span v-if="post.comments_count > 0">{{` (${post.comments_count})` }}</span></td>
                         <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500" @click="showPost({id: post.id})">{{ post.user.name }}</td>
@@ -32,8 +32,9 @@
                             </div>
                         </td>
                     </tr>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
             <PaginationButtons :links="props.data.links"/>
             <Modal ref="modalRef"/>
         </div>
@@ -49,6 +50,7 @@ import usePost from "@/libs/controller/usePost.js";
 import useUtils from "@/libs/useUtils.js";
 import Modal from "@/Pages/Components/Modal.vue";
 import TextButton from "@/Pages/Components/TextButton.vue";
+import SearchForm from "@/Pages/Post/Partials/SearchForm.vue";
 
 const props = defineProps({
     data: Object,

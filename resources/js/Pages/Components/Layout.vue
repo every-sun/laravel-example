@@ -71,7 +71,7 @@ const route = inject('route')
 
 const mainNavigation = [
     { name: '목록', href: route('posts.index'), icon: Bars3Icon, current: route().current('posts.index'), },
-    { name: '최근 본 게시물', href: route('posts.history.index'), icon: EyeIcon, current: route().current('posts.history.index') },
+    { name: '최근 조회된 게시물', href: route('posts.history.index'), icon: EyeIcon, current: route().current('posts.history.index') },
 ]
 
 

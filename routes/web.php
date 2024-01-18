@@ -57,14 +57,13 @@ Route::middleware([
     Route::put('/post/{post_id}/comment/{id}', [CommentController::class, 'updateComment'])->name('post.comment.update');
     Route::delete('/post/{post_id}/comment/{id}', [CommentController::class, 'destroyComment'])->name('post.comment.destroy');
 
-    Route::get('/files', [FileController::class, 'indexFiles'])->name('files.index');
     Route::get('/files/create', [FileController::class, 'createFiles'])->name('files.create');
     Route::post('/files', [FileController::class, 'storeFiles'])->name('files.store');
 });
 
-Route::get('/post', [PostController::class, 'indexPosts'])->name('posts.index');
+Route::get('/posts', [PostController::class, 'indexPosts'])->name('posts.index');
 Route::get('/post/{id}', [PostController::class, 'showPost'])->name('post.show');
-
+Route::get('/posts/search', [PostController::class, 'searchPostsIndex'])->name('posts.search.index');
 
 Route::middleware(['role'])->group(function(){
     Route::get('/roles', [RoleController::class, 'indexRoles'])->name('roles.index');
@@ -74,3 +73,7 @@ Route::middleware(['role'])->group(function(){
 
 
 Route::get('/posts/history', [PostController::class, 'indexPostsHistory'])->name('posts.history.index');
+
+Route::get('/files', [FileController::class, 'indexFiles'])->name('files.index');
+
+

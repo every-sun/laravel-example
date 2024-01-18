@@ -1,6 +1,6 @@
 <template>
     <tr >
-        <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500">{{ user.id }}</td>
+        <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500">{{ user.email }}</td>
         <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500">
             {{ user.name }}</td>
         <td class="whitespace-nowrap px-3 py-1 text-sm text-gray-500">{{ getLongTime(user.created_at) }}</td>

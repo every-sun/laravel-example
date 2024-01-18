@@ -7,7 +7,20 @@ export default function useComment({modalRef}){
     const storeComment = ({form}) => {
         form.post(route('post.comment.store', {post_id: route().params.id}), {
             preserveScroll: true,
-            onSuccess: () => form.reset('content'),
+            onSuccess: (res) => {
+                console.log('댓글저장: ', res)
+                form.reset('content');
+
+                modal.openModal({
+                    content:'1',
+                    event: ()=>{
+
+                    }
+                })
+            },
+            onFinish: (visit)=>{
+                console.log(visit)
+            },
             onError: (errors)=>{
                 console.log(errors.content)
             }
